@@ -6,6 +6,8 @@ import RegisterPage from './components/RegisterPage';
 import Events from './components/Events.js';
 import Login from './components/Login';
 import './App.css'
+import Calender from './components/Calender.js';
+import ApprovalForm from './components/ApprovalForm.js';
 function App() {
   return (
     <>
@@ -14,8 +16,10 @@ function App() {
         <div className='w-100px'>
           <Routes>
             <Route exact path='/login' element={<Login />} />
+            <Route exact path='/approval' element={<ApprovalForm />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/events' element={<Events />} />
+            <Route path='/calender' element={<Calender />} />
 
             <Route exact path="/comittees" element={<Comittees />} />
           </Routes>
