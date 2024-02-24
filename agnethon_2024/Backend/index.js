@@ -3,6 +3,8 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 const User = require('./models/User')
 const Post = require('./models/Post');
+const EventApplication = require('./models/Application');
+
 const bcrypt = require('bcrypt'); 
 const app = express();
 const jwt = require('jsonwebtoken');
@@ -159,6 +161,67 @@ app.get('/post/:id', async (req, res) => {
     const postDoc = await Post.findById(id).populate('author', ['username']);
     res.json(postDoc);
   })
+
+  app.get('/applications', async (req, res) => {
+    try {
+      const application = await EventApplication.find();
+      res.json(application);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  app.put('/update/:id', async (req, res) => {
+    const {status } = req.body;
+  
+    try {
+      const updatedStudent = {
+        status
+      };
+      
+      const student = await EventApplication.findByIdAndUpdate(req.params.id, updatedStudent, { new: true });
+  
+      if (!student) {
+        return res.status(404).send('Student not found');
+      }
+  
+      res.json(student);
+    } catch (error) {
+      // console.error(error.message);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  app.post('/event-application', async (req, res) => {
+    try {
+      const {
+        committeeName,
+        committeeSecretory,
+        contactNumber,
+        email,
+        eventDate,
+        eventTime,
+        venue,
+        message
+      } = req.body;
+  
+      const eventApplication = await EventApplication.create({
+        committeeName,
+        committeeSecretory,
+        contactNumber,
+        email,
+        eventDate,
+        eventTime,
+        venue,
+        message
+      });
+  
+      res.status(201).json(eventApplication);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
 
 app.listen(4000, () => {
     console.log(`VJTI Hostel app is listening on port ${4000}`);

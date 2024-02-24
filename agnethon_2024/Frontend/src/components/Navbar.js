@@ -40,6 +40,11 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
+              <Link className="nav-link" to="/applications">
+                  Applications
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/comittees">
                   Committees
                 </Link>
@@ -64,7 +69,7 @@ function Navbar() {
                     type="submit"
                     onClick={handleLogout}
                   >
-                  Logout
+                  Login
                   </button>
                 </form>
               ) : (
@@ -74,7 +79,7 @@ function Navbar() {
                   to="/login"
                   type="submit"
                 >
-                  Login
+                  Logout
                 </button>
               )}
             </form>

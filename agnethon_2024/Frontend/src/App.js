@@ -6,8 +6,13 @@ import RegisterPage from './components/RegisterPage';
 import Events from './components/Events.js';
 import Login from './components/Login';
 import './App.css'
-import Calender from './components/Calender.js';
+import CreatePost from './components/CreatePost.js';
+import PostPage from './components/PostPage.js';
+import EditPost from './components/EditPost.js';
+import MyCalender from './components/MyCalender.js';
 import ApprovalForm from './components/ApprovalForm.js';
+import Applications from './components/Applications.js';
+
 function App() {
   return (
     <>
@@ -19,7 +24,11 @@ function App() {
             <Route exact path='/approval' element={<ApprovalForm />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/events' element={<Events />} />
-            <Route path='/calender' element={<Calender />} />
+            <Route path='/create' element={<CreatePost />} />
+            <Route path='/post/:id' element={<PostPage />} />
+            <Route path='/edit/:id' element={<EditPost />} />
+            <Route path='/calender' element={<MyCalender />} />
+            <Route path='/applications' element={<Applications />} />
 
             <Route exact path="/comittees" element={<Comittees />} />
           </Routes>
