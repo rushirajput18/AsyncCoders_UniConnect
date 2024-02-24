@@ -8,9 +8,9 @@ function Cards(props) {
           <div className="flip-card-front">
             <img src={props.img} alt="Avatar" style={{ width: '200px', height: '200px', borderRadius: '50%'}} />
           </div>
-          <div className="flip-card-back bg-success">
+          <div className="flip-card-back" style={{backgroundColor:'black'}}>
             <h1>{props.name}</h1>
-           
+           <p>{props.info}</p>
           </div>
         </div>
       </div>
