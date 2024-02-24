@@ -6,7 +6,7 @@ function Cards(props) {
        <div className="flip-card">
         <div className="flip-card-inner">
           <div className="flip-card-front">
-            <img src={props.img} alt="Avatar" style={{ width: '300px', height: '200px' }} />
+            <img src={props.img} alt="Avatar" style={{ width: '200px', height: '200px', borderRadius: '50%'}} />
           </div>
           <div className="flip-card-back bg-success">
             <h1>{props.name}</h1>
