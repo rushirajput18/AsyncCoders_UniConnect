@@ -1,32 +1,53 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import './css/dropdown.css'
+import './css/dropdown.css';
+
 export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [selectedRole, setSelectedRole] = useState('');
     const [redirect, setRedirect] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
     async function login(ev) {
         ev.preventDefault();
+    
+        if (!selectedRole) {
+            alert('Please select a role.');
+            return;
+        }
+    
         const response = await fetch('http://localhost:4000/login', {
             method: 'POST',
-            body: JSON.stringify({ username, password, role: selectedRole }), // Include selected role in the request body
+            body: JSON.stringify({ username, password, role: selectedRole }),
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
         });
+    
         if (response.ok) {
-            response.json().then(userInfo => {
-                setRedirect(true);
-            });
+            const userInfo = await response.json();
+
+            // Set user as logged in
+            localStorage.setItem('token', userInfo.token);
+            localStorage.setItem('role', userInfo.role);
+
+            // Update the isLoggedIn state
+            setIsLoggedIn(true);
+
+            // Reload the page
+            window.location.href = '/';
+
+            // Redirect to committees page
+            setRedirect(true);
         } else {
             alert('Wrong credentials');
         }
+        
+    }
+    if (redirect && isLoggedIn ) {
+        return <Navigate to={'/'} />;
     }
 
-    if (redirect) {
-        return <Navigate to={'/comittees'} />;
-    }
 
     return (
         <form className="login" onSubmit={login}>
@@ -53,7 +74,7 @@ export default function LoginPage() {
                         <option value="Student">Student</option>
                     </select>
                 </div>
-            <button>Login</button>
+            <button type="submit">Login</button>
         </form>
     );
 }

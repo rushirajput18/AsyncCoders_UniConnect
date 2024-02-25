@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const User = require('./models/User')
 const Post = require('./models/Post');
 const EventApplication = require('./models/Application');
-
+const Committee = require('./models/Committee')
 const bcrypt = require('bcrypt'); 
 const app = express();
 const jwt = require('jsonwebtoken');
@@ -40,67 +40,117 @@ app.post('/register', async (req, res) => {
         res.status(400).json(e);
     }
 });
-// MiddleWare
-function verifyAdmin(req, res, next) {
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, (err, info) => {
-      if (err) {
-          return res.status(401).json({ message: "Unauthorized" });
-      }
 
-      // Check if the user has the 'Admin' role
-      if (info.role !== 'Authority') {
-          return res.status(403).json({ message: "Forbidden" });
-      }
-
-      // If the user has the 'Admin' role, proceed to the next middleware/route handler
-      next();
-  });
-}
-
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+app.post('/event-application', async (req, res) => {
   try {
-      const userDoc = await User.findOne({ username });
-      if (!userDoc) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    const {
+      committeeName,
+      committeeSecretory,
+      contactNumber,
+      email,
+      eventDate,
+      eventTime,
+      venue,
+      message
+    } = req.body;
 
-      const passOk = bcrypt.compareSync(password, userDoc.password);
-      if (!passOk) {
-          return res.status(401).json({ message: "Invalid password" });
-      }
-
-      const tokenPayload = {
-          username,
-          id: userDoc._id,
-          role: userDoc.role // Include the role in the token payload
-      };
-
-      jwt.sign(tokenPayload, secret, {}, (err, token) => {
-          if (err) throw err;
-          res.cookie('token', token).json({
-              id: userDoc._id,
-              username,
-              role: userDoc.role // Also include the role in the response
-          });
-      });
+    const eventApplication = await EventApplication.create({
+      committeeName,
+      committeeSecretory,
+      contactNumber,
+      email,
+      eventDate,
+      eventTime,
+      venue,
+      message
+    });
+    
+    res.status(201).json(eventApplication);
   } catch (error) {
-      res.status(400).json(error);
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+app.get('/applications', async (req, res) => {
+  try {
+    const application = await EventApplication.find();
+    res.json(application);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+app.post('/login', async (req, res) => {
+  const { username, password, role } = req.body;
+  try {
+    const userDoc = await User.findOne({ username });
+    if (!userDoc) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const passOk = bcrypt.compareSync(password, userDoc.password);
+    if (!passOk) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    // Check if the entered role matches the user's role
+    if (role && role !== userDoc.role) {
+      return res.status(401).json({ message: "Invalid role" });
+    }
+
+    const tokenPayload = {
+      username,
+      id: userDoc._id,
+      role: userDoc.role,
+    };
+
+    jwt.sign(tokenPayload, secret, {}, (err, token) => {
+      if (err) throw err;
+      res.cookie('token', token).json({
+        id: userDoc._id,
+        username,
+        role: userDoc.role,
+      });
+    });
+  } catch (error) {
+    res.status(400).json(error);
   }
 });
 
 app.get('/profile',(req,res)=>{
-    const {token} = req.cookies;
-    jwt.verify(token,secret,{},(err,info)=>{
-        if(err) throw err;
-        res.json(info);
-    });
+  const {token} = req.cookies;
+  jwt.verify(token,secret,{},(err,info)=>{
+    if(err) throw err;
+    res.json(info);
+  });
 });
 
 app.post('/logout',(req,res) => {
-    res.cookie('token','').json('ok');
+  res.cookie('token','').json('ok');
 })
+app.post('/add-committee', uploadMiddleware.single('image'), async (req, res) => {
+  try {
+    const { name, head, description } = req.body;
+
+    // Get the file path of the uploaded image
+    const image = req.file ? req.file.path : ''; // Check if file is uploaded
+
+    // Create a new Committee document with the image path
+    const committee = await Committee.create({
+      name,
+      head,
+      description,
+      image,
+    });
+
+    res.status(201).json(committee);
+    console.log(committee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
 
 // Endpoint for new post
 app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
@@ -125,6 +175,16 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
     });
 
    
+});
+app.get('/committees', async (req, res) => {
+  try {
+    // Fetch all committees from the database
+    const committees = await Committee.find();
+    res.json(committees);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.put('/post',uploadMiddleware.single('file'), async (req,res) => {

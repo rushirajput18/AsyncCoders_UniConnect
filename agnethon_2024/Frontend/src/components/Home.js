@@ -8,17 +8,7 @@ import backgroundImage from '../components/Images/prati.jpg';
 const Home = () => {
   const navigate = useNavigate();
 
-  const videoStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    minWidth: '100%',
-    minHeight: '100%',
-    width: 'auto',
-    height: 'auto',
-    zIndex: '-1',
-  };
+  
 
   const containerStyle = {
     position: 'relative',

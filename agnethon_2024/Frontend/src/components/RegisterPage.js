@@ -9,6 +9,12 @@ export default function RegisterPage() {
 
     async function register(ev) {
         ev.preventDefault();
+
+        if (!selectedRole) {
+            alert('Please select a role.');
+            return;
+        }
+
         const response = await fetch('http://localhost:4000/register', {
             method: 'POST',
             body: JSON.stringify({ username, password, role: selectedRole }), // Include selected role in the request body

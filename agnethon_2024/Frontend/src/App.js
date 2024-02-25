@@ -13,6 +13,7 @@ import MyCalender from './components/MyCalender.js';
 import ApprovalForm from './components/ApprovalForm.js';
 import Applications from './components/Applications.js';
 import Home from './components/Home.js';
+import About from './components/About.js';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route exact path='/login' element={<Login />} />
             <Route exact path='/approval' element={<ApprovalForm />} />
             <Route path='/register' element={<RegisterPage />} />
+            <Route path='/about' element={<About />} />
             <Route path='/events' element={<Events />} />
             <Route path='/create' element={<CreatePost />} />
             <Route path='/post/:id' element={<PostPage />} />
