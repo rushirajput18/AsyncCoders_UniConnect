@@ -4,18 +4,14 @@ function Cards(props) {
   console.log(props.event); // Add this line to check props
   
   return (
-    <div className="flip-card">
-      <div className="flip-card-inner">
-        <div className="flip-card-front">
-        <img src={'http://localhost:4000/' + props.event.image} alt="Avatar" style={{ width: '200px', height: '200px', borderRadius: '50%'}} />
-        </div>
-        <div className="flip-card-back" style={{backgroundColor:'black'}}>
-          <h1>{props.event.name}</h1>
-          <h1>{props.event.head}</h1>
-          <p>{props.event.description}</p>
-        </div>
-      </div>
+    <div className="card" style={{width: '18rem'}}>
+<img src={props.img} className="card-img mx-auto my-auto" style={{ width: '200px'}} alt="..." />
+    <div className="card-body">
+      <h3 className="card-text" >{props.name}</h3>
+      <h5 className="card-text" style={{color:'blue'}}>Secretory: {props.head}</h5>
+      <p className="card-text">{props.info}</p>
     </div>
+  </div>
   );
 }
 

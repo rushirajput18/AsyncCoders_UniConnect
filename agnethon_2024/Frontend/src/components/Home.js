@@ -84,7 +84,7 @@ const Home = () => {
           <div style={headingStyle}>UniConnect</div>
           <div style={columnsStyle}>
 
-            <Link style={linkStyle}
+            {/* <Link style={linkStyle}
               onMouseEnter={(e) => {
                 e.target.style.backgroundColor = '#7d2ae8';
               }}
@@ -92,7 +92,7 @@ const Home = () => {
                 e.target.style.backgroundColor = '';
               }} className="nav-link" onClick={handleNavigateToAdmission}>
               Committees
-            </Link>
+            </Link> */}
 
 
             {/* <button
@@ -102,7 +102,7 @@ const Home = () => {
             >
               Admissions
             </button> */}
-            <Link
+            {/* <Link
               className="nav-link"
               onClick={handleNavigateToMap}
               style={linkStyle}
@@ -114,7 +114,7 @@ const Home = () => {
               }}
             >
               Events
-            </Link>
+            </Link> */}
             {/* Use react-scroll to smoothly scroll to the "About Us" section */}
             <Link
               className="nav-link"

@@ -98,7 +98,13 @@ app.post('/login', async (req, res) => {
     if (role && role !== userDoc.role) {
       return res.status(401).json({ message: "Invalid role" });
     }
-
+    app.get('/checkConflict', async (req, res) => {
+      const { venue, date, time } = req.query;
+    
+      const conflictPost = await Post.findOne({ venue, date, time });
+    
+      res.json({ conflict: !!conflictPost });
+    });
     const tokenPayload = {
       username,
       id: userDoc._id,
@@ -163,13 +169,16 @@ app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
     const {token} = req.cookies;
     jwt.verify(token,secret,{},async (err,info)=>{
         if(err) throw err;
-        const {title,summary,content} = req.body;
+        const {title,summary,content, cover, author, venue, date, time} = req.body;
         const postDoc = await Post.create({
              title,
              summary,
              content,
              cover: newPath,
              author:info.id,
+             venue,
+             date,
+             time
          });
     res.json(postDoc);
     });
@@ -215,6 +224,9 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
         summary,
         content,
         cover: newPath ? newPath : postDoc.cover,
+        venue,
+        date,
+        time
       });
   
       res.json(postDoc);

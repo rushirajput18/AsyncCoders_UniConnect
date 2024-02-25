@@ -50,7 +50,7 @@ export default function LoginPage() {
 
 
     return (
-        <form className="login" onSubmit={login}>
+        <form className="login" onSubmit={login} style={{marginBottom:'315px'}}>
             <h1>Login</h1>
             <input
                 type="text"

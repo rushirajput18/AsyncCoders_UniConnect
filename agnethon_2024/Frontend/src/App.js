@@ -14,6 +14,7 @@ import ApprovalForm from './components/ApprovalForm.js';
 import Applications from './components/Applications.js';
 import Home from './components/Home.js';
 import About from './components/About.js';
+import Footer from './components/Footer.js';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      <Footer/>
     </>
   );
 }
