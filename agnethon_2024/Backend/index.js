@@ -26,11 +26,12 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 mongoose.connect('mongodb://127.0.0.1:27017/UniConnect');
 
 app.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, role} = req.body;
     try {
         const userDoc = await User.create({ 
             username, 
             password:bcrypt.hashSync(password,salt),
+            role
          });
         res.json(userDoc);
 
@@ -39,39 +40,55 @@ app.post('/register', async (req, res) => {
         res.status(400).json(e);
     }
 });
+// MiddleWare
+function verifyAdmin(req, res, next) {
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, (err, info) => {
+      if (err) {
+          return res.status(401).json({ message: "Unauthorized" });
+      }
 
+      // Check if the user has the 'Admin' role
+      if (info.role !== 'Authority') {
+          return res.status(403).json({ message: "Forbidden" });
+      }
+
+      // If the user has the 'Admin' role, proceed to the next middleware/route handler
+      next();
+  });
+}
 
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const userDoc = await User.findOne({ username });
-        const passOk = bcrypt.compareSync(password, userDoc.password);
+  const { username, password } = req.body;
+  try {
+      const userDoc = await User.findOne({ username });
+      if (!userDoc) {
+          return res.status(404).json({ message: "User not found" });
+      }
 
-        if (!userDoc) {
-            // User with the specified username doesn't exist
-            return res.status(404).json({ message: "User not found" });
-        }
+      const passOk = bcrypt.compareSync(password, userDoc.password);
+      if (!passOk) {
+          return res.status(401).json({ message: "Invalid password" });
+      }
 
-        
-        if (passOk) {
-            // Password is correct
-            // res.json({ message: "Login successful" });
-            jwt.sign({username,id:userDoc._id},secret,{},(err,token)=>{
-                if(err) throw err;
-                res.cookie('token',token).json({
-                    id:userDoc._id,
-                    username,
-                })
-            })
-        } else {
-            // Password is incorrect
-            res.status(401).json({ message: "Invalid password" });
-        }
-    } catch (error) {
-        res.status(400).json(error);
-    }
+      const tokenPayload = {
+          username,
+          id: userDoc._id,
+          role: userDoc.role // Include the role in the token payload
+      };
+
+      jwt.sign(tokenPayload, secret, {}, (err, token) => {
+          if (err) throw err;
+          res.cookie('token', token).json({
+              id: userDoc._id,
+              username,
+              role: userDoc.role // Also include the role in the response
+          });
+      });
+  } catch (error) {
+      res.status(400).json(error);
+  }
 });
-
 
 app.get('/profile',(req,res)=>{
     const {token} = req.cookies;

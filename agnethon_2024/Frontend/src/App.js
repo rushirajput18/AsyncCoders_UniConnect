@@ -12,6 +12,7 @@ import EditPost from './components/EditPost.js';
 import MyCalender from './components/MyCalender.js';
 import ApprovalForm from './components/ApprovalForm.js';
 import Applications from './components/Applications.js';
+import Home from './components/Home.js';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Navbar />
         <div className='w-100px'>
           <Routes>
+            <Route exact path='/' element={<Home />} />
             <Route exact path='/login' element={<Login />} />
             <Route exact path='/approval' element={<ApprovalForm />} />
             <Route path='/register' element={<RegisterPage />} />

@@ -3,9 +3,7 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
 import { Navigate } from "react-router-dom";
 import Editor from "../Editor";
-
-
-
+import "./css/Event.css"; // Import your custom CSS file
 
 export default function CreatePost(){
     const [title,setTitle] = useState('');
@@ -35,19 +33,22 @@ export default function CreatePost(){
     }
   
     return (
-        <form onSubmit={createNewPost}>
-            <input type="title" 
-                   placeholder={'Title'}
+        <form onSubmit={createNewPost} className="create-post-form">
+            <input type="text" 
+                   className="input-field"
+                   placeholder="Title"
                    value={title}
                    onChange={ev => setTitle(ev.target.value)}/>
-            <input type="summary" 
-                   placeholder={'Summary'}
+            <input type="text" 
+                   className="input-field"
+                   placeholder="Summary"
                    value={summary}
                    onChange={ev => setSummary(ev.target.value)}/>
             <input type="file" 
+                   className="file-input"
                    onChange={ev => setFiles(ev.target.files)}/>
            <Editor value={content} onChange={setContent}/>
-            <button style={{marginTop:'5px'}}>Create Post</button>
+            <button className="submit-button ">Create Post</button>
         </form>
     );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, animateScroll as scroll } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
 // import vdo from './Images/Reelvideo-23342.mp4';
+import backgroundImage from '../components/Images/prati.jpg';
 // import Footer from './Footer';
 
 const Home = () => {
@@ -22,14 +23,16 @@ const Home = () => {
   const containerStyle = {
     position: 'relative',
     width: '100%',
-    height: '95vh', // Adjust this for the desired height
+    height: '95vh',
     overflow: 'hidden',
+    background: `url(${backgroundImage}) center/cover`, // Set the background image
+    filter: 'brightness(85%)', // Add a darken effect
   };
 
   const overlayStyle = {
     position: 'absolute',
     top: '50%',
-    left: '25%', // Positioned on the left quarter
+    left: '25%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     width: '25%',
@@ -47,7 +50,7 @@ const Home = () => {
     paddingTop: '10px',
     // Added hover style
     ':hover': {
-      backgroundColor: '#7d2ae8', 
+      backgroundColor: '#7d2ae8',
     },
   };
 
@@ -84,22 +87,23 @@ const Home = () => {
 
   return (
     <>
+    
       <div style={containerStyle}>
-        <video src={vdo} autoPlay muted loop playsInline style={videoStyle} />
+        {/* <video src={vdo} autoPlay muted loop playsInline style={videoStyle} /> */}
         <div style={overlayStyle}>
           <div style={headingStyle}>UniConnect</div>
           <div style={columnsStyle}>
-        
-                    <Link style={linkStyle}
-  onMouseEnter={(e) => {
-    e.target.style.backgroundColor = '#7d2ae8';
-  }}
-  onMouseLeave={(e) => {
-    e.target.style.backgroundColor = '';
-  }} className="nav-link" onClick={handleNavigateToAdmission}>
-                     Committees
-                    </Link>
-                  
+
+            <Link style={linkStyle}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#7d2ae8';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '';
+              }} className="nav-link" onClick={handleNavigateToAdmission}>
+              Committees
+            </Link>
+
 
             {/* <button
               className="nav-link"
@@ -119,7 +123,7 @@ const Home = () => {
                 e.target.style.backgroundColor = '';
               }}
             >
-             Events
+              Events
             </Link>
             {/* Use react-scroll to smoothly scroll to the "About Us" section */}
             <Link
