@@ -15,6 +15,7 @@ import Applications from './components/Applications.js';
 import Home from './components/Home.js';
 import About from './components/About.js';
 import Footer from './components/Footer.js';
+import RegistrationForm from './components/RegistrationForm.js';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
             <Route path='/about' element={<About />} />
             <Route path='/events' element={<Events />} />
             <Route path='/create' element={<CreatePost />} />
+            <Route path="/registerevent" element={<RegistrationForm/>} /> {/* New route for registration page */}
+          
             <Route path='/post/:id' element={<PostPage />} />
             <Route path='/edit/:id' element={<EditPost />} />
             <Route path='/calender' element={<MyCalender />} />

@@ -4,18 +4,24 @@ import { useNavigate } from 'react-router-dom';
 // import vdo from './Images/Reelvideo-23342.mp4';
 import backgroundImage from '../components/Images/prati.jpg';
 // import Footer from './Footer';
+import { Parallax } from "react-parallax";
+import image1 from "./Images/vjti_droneview.jpg";
+import prati from "./Images/prati.jpg";
+import image3 from "./Images/cesa.png";
+import image4 from "./Images/concert.jpg";
+import techno from "./Images/technoEvent.jpg";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  
+
 
   const containerStyle = {
     position: 'relative',
     width: '100%',
     height: '95vh',
     overflow: 'hidden',
-    background: `url(${backgroundImage}) center/cover`, // Set the background image
+    // background: url(${backgroundImage}) center/cover, // Set the background image
     filter: 'brightness(85%)', // Add a darken effect
   };
 
@@ -77,45 +83,39 @@ const Home = () => {
 
   return (
     <>
-    
-      <div style={containerStyle}>
-        {/* <video src={vdo} autoPlay muted loop playsInline style={videoStyle} /> */}
+      <div className="App">
+
+
+        <div className="content">
+          <Parallax strength={300} bgImage={image4}>
+            <div className="content">
+              <div className="text-content">Welcome to UniConnect-VJTI !</div>
+            </div>
+          </Parallax>
+          <Parallax strength={300} bgImage={prati}>
+            <div className="content">
+              <div className="text-content">PRATIBIMB-The cultural extravaganza of VJTI</div>
+            </div>
+          </Parallax>
+          <Parallax strength={300} bgImage={techno}>
+            <div className="content">
+              <div className="text-content">TECHNOVANZA - The premiere technical group initiative of the VJTI Social Group, is one of Asia's Largest Techno-Manegerial Festival</div>
+            </div>
+          </Parallax>
+          {/* <Parallax strength={300} bgImage={image1}>
+            <div className="content">
+              <div className="text-content">ENTHUSIA-</div>
+            </div>
+          </Parallax> */}
+        </div>
+      </div>
+
+
+      {/* <div style={containerStyle}>
         <div style={overlayStyle}>
           <div style={headingStyle}>UniConnect</div>
           <div style={columnsStyle}>
 
-            {/* <Link style={linkStyle}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#7d2ae8';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '';
-              }} className="nav-link" onClick={handleNavigateToAdmission}>
-              Committees
-            </Link> */}
-
-
-            {/* <button
-              className="nav-link"
-              onClick={handleNavigateToAdmission}
-              style={linkStyle}
-            >
-              Admissions
-            </button> */}
-            {/* <Link
-              className="nav-link"
-              onClick={handleNavigateToMap}
-              style={linkStyle}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#7d2ae8';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '';
-              }}
-            >
-              Events
-            </Link> */}
-            {/* Use react-scroll to smoothly scroll to the "About Us" section */}
             <Link
               className="nav-link"
               to="aboutSection"
@@ -132,9 +132,8 @@ const Home = () => {
             </Link>
           </div>
         </div>
-      </div>
-      {/* <About />
-      <Footer/> */}
+      </div> */}
+    
     </>
   );
 };

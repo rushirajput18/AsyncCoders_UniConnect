@@ -1,8 +1,13 @@
 import React from "react";
 import { formatISO9075 } from "date-fns";
-import { Link } from "react-router-dom";
-
+import { Link, useHistory, useNavigate } from "react-router-dom"; // Import useHistory hook
+import '../src/components/css/posts.css'
 export default function Post(props) {
+  const userRole = localStorage.getItem("role");
+  const navigate = useNavigate(); // Initialize useHistory hook
+  const handleRegisterClick = () => {
+    navigate(`/registerevent`); // Navigate to registration page with event title
+  };
   return (
     <div className="post">
       <div className="image">
@@ -34,8 +39,12 @@ export default function Post(props) {
         )}
 
         {/* Register Button */}
-        <button className="register-button" style={{width:'120px'}}>Register</button>
+        {(userRole === "Student" || userRole === "Admin") && (
+        <button className="register-button" style={{ width: '120px' }} onClick={handleRegisterClick}>Register</button>
+        )}
       </div>
+       
+      
     </div>
   );
 }
